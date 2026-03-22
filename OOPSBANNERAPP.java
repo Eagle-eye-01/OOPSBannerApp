@@ -1,82 +1,50 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class BannerAppUC7 {
+public class BannerApp {
+    private static final Map<Character, String[]> patternMap = new HashMap<>();
+
+    static {
+        patternMap.put('O', new String[]{
+            " ### ",
+            "#   #",
+            "#   #",
+            "#   #",
+            " ### "
+        });
+        patternMap.put('P', new String[]{
+            "#### ",
+            "#   #",
+            "#### ",
+            "#    ",
+            "#    "
+        });
+        patternMap.put('S', new String[]{
+            " ####",
+            "#    ",
+            " ### ",
+            "    #",
+            "#### "
+        });
+    }
 
     public static void main(String[] args) {
+        String word = args.length > 0 ? args[0] : "OOPS";
+        renderBanner(word);
+    }
 
-        String word = "OOPS";
-        CharacterPatternMap patternMap = new CharacterPatternMap();
-
-        for (int row = 0; row < 7; row++) {
+    public static void renderBanner(String word) {
+        int height = 5;
+        
+        for (int i = 0; i < height; i++) {
             StringBuilder line = new StringBuilder();
-            for (char ch : word.toCharArray()) {
-                CharacterPattern pattern = patternMap.getPattern(ch);
+            for (char c : word.toUpperCase().toCharArray()) {
+                String[] pattern = patternMap.get(c);
                 if (pattern != null) {
-                    line.append(pattern.getPattern()[row]).append("  ");
+                    line.append(pattern[i]).append("  ");
                 }
             }
             System.out.println(line);
-        }
-    }
-
-    static class CharacterPattern {
-
-        private char character;
-        private String[] pattern;
-
-        public CharacterPattern(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-
-        public char getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
-        }
-    }
-
-    static class CharacterPatternMap {
-
-        private Map<Character, CharacterPattern> patternMap = new HashMap<>();
-
-        public CharacterPatternMap() {
-            patternMap.put('O', new CharacterPattern('O', new String[]{
-                    " ***** ",
-                    "*     *",
-                    "*     *",
-                    "*     *",
-                    "*     *",
-                    "*     *",
-                    " ***** "
-            }));
-
-            patternMap.put('P', new CharacterPattern('P', new String[]{
-                    "****** ",
-                    "*     *",
-                    "*     *",
-                    "****** ",
-                    "*      ",
-                    "*      ",
-                    "*      "
-            }));
-
-            patternMap.put('S', new CharacterPattern('S', new String[]{
-                    " ***** ",
-                    "*     *",
-                    "*      ",
-                    " ***** ",
-                    "      *",
-                    "*     *",
-                    " ***** "
-            }));
-        }
-
-        public CharacterPattern getPattern(char character) {
-            return patternMap.get(character);
         }
     }
 }
